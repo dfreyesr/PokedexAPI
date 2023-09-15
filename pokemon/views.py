@@ -3,13 +3,14 @@ from django.http import JsonResponse
 
 POKEAPI_BASE_URL = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=1281'
 
-
 def fetch_data_from_url(url):
+    """Fetch data from the given URL. Return the JSON content or None if request fails."""
     response = requests.get(url)
     return response.json() if response.status_code == 200 else None
 
 
 def allPokemon(request):
+    """Return a list of all Pokemon from the POKEAPI or a 500 error if fetching fails."""
     data = fetch_data_from_url(POKEAPI_BASE_URL)
     if data:
         pokemons = data.get('results', [])
@@ -18,6 +19,7 @@ def allPokemon(request):
 
 
 def getPokemon(request):
+    """Retrieve details of a specific Pokemon by name. Return a 404 error if Pokemon is not found."""
     pokemon_name = request.GET.get('name')
     data = fetch_data_from_url(POKEAPI_BASE_URL)
 
@@ -35,6 +37,7 @@ def getPokemon(request):
 
 
 def getDetails(detailUrl):
+    """Return the type, Pokedex ID, and sprite details of a Pokemon from the given URL."""
     data = fetch_data_from_url(detailUrl)
 
     if data:
@@ -47,6 +50,7 @@ def getDetails(detailUrl):
 
 
 def getAbilities(detailUrl):
+    """Retrieve and return the abilities of a Pokemon from the given URL."""
     data = fetch_data_from_url(detailUrl)
 
     if data:
@@ -56,6 +60,7 @@ def getAbilities(detailUrl):
 
 
 def getAbilitiesDetail(abilityUrl):
+    """Fetch and return the English description of a Pokemon's ability from the given URL."""
     data = fetch_data_from_url(abilityUrl)
 
     if data:
